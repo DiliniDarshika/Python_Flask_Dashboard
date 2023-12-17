@@ -12,7 +12,7 @@ app.app_context().push()
 
 from application import routes
 
-#dd
+#dddd
 #pip install flask-sqlalchemy
 
 #python
