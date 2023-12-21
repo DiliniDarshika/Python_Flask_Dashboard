@@ -32,8 +32,8 @@
 
 {% block javascript %}
 <script>
-    let income_vs_expense_data = JSON.parse({{ income_vs_expense | tojson }})
-    let income_category_data = JSON.parse({{ income_category | tojson}})
+    let income_vs_expense_data = JSON.parse("{{ income_vs_expense | tojson }}")
+    let income_category_data = JSON.parse("{{ income_category | tojson}}")
 
     Chart.scaleService.updateScaleDefaults('linear', {
             ticks: {
@@ -114,8 +114,8 @@
             }
             }
         })
-        over_time_expenditure = JSON.parse({{over_time_expenditure | tojson}})
-        labels = JSON.parse({{ dates_label  | tojson}})
+        over_time_expenditure = JSON.parse("{{over_time_expenditure | tojson}}")
+        labels = JSON.parse("{{ dates_label  | tojson}}")
 
         new Chart(document.getElementById("overtime_expenditure"), {
                 type: "line",
