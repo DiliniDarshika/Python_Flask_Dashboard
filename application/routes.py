@@ -2,6 +2,8 @@ from application import app, db
 from flask import render_template, url_for, redirect,flash, get_flashed_messages
 from application.form import UserInputForm
 from application.models import IncomeExpenses
+from application import db
+import json
 
 from application import app, db
 db.create_all()
@@ -30,3 +32,33 @@ def delete(entry_id):
     db.session.commit()
     flash("Entry deleted", "success")
     return redirect(url_for("index"))
+
+
+@app.route('/dashboard')
+def dashboard():
+    income_vs_expense = db.session.query(db.func.sum(IncomeExpenses.amount), IncomeExpenses.type).group_by(IncomeExpenses.type).order_by(IncomeExpenses.type).all()
+
+    category_comparison = db.session.query(db.func.sum(IncomeExpenses.amount), IncomeExpenses.category).group_by(IncomeExpenses.category).order_by(IncomeExpenses.category).all()
+
+    dates = db.session.query(db.func.sum(IncomeExpenses.amount), IncomeExpenses.date).group_by(IncomeExpenses.date).order_by(IncomeExpenses.date).all()
+
+    income_category = []
+    for amounts, _ in category_comparison:
+        income_category.append(amounts)
+
+    income_expense = []
+    for total_amount, _ in income_vs_expense:
+        income_expense.append(total_amount)
+
+    over_time_expenditure = []
+    dates_label = []
+    for amount, date in dates:
+        dates_label.append(date.strftime("%m-%d-%y"))
+        over_time_expenditure.append(amount)
+
+    return render_template('dashboard.html',
+                            income_vs_expense=json.dumps(income_expense),
+                            income_category=json.dumps(income_category),
+                            over_time_expenditure=json.dumps(over_time_expenditure),
+                            dates_label =json.dumps(dates_label)
+                        )
