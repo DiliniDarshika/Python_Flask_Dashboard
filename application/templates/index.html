@@ -22,8 +22,7 @@
                     <td>{{entry.type}}</td>
                     <td>{{ entry.category }}</td>
                     <td>{{ entry.amount }}</td>
-                    <td><a href="#" 
-                            class="btn btn-outline-danger btn-sm">Delete</a></td>
+                    <td><a href="{{ url_for('delete', entry_id = entry.id) }}" class="btn btn-outline-danger btn-sm">Delete</a></td>
                 </tr>
                 {% endfor %}
         </tbody>

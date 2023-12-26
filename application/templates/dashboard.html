@@ -35,11 +35,11 @@
     let income_vs_expense_data = JSON.parse("{{ income_vs_expense | tojson }}")
     let income_category_data = JSON.parse("{{ income_category | tojson}}")
 
-    Chart.scaleService.updateScaleDefaults('linear', {
-            ticks: {
-                min: 0
-            }
-    });
+    // Chart.scaleService.updateScaleDefaults('linear', {
+    //         ticks: {
+    //             min: 0
+    //         }
+    // });
 
 
     let income_vs_expense_chart = new Chart(income_vs_expense, {
@@ -134,6 +134,6 @@
                 options: {}
             });
 </script>
-{% endblock %}
+{% endblock%}
 
 {% endblock %}

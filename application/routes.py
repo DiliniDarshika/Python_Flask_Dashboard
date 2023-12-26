@@ -9,21 +9,24 @@ from application import app, db
 db.create_all()
 
 
-@app.route("/")
+@app.route('/')
 def index():
     entries = IncomeExpenses.query.order_by(IncomeExpenses.date.desc()).all()
-    return render_template('index.html', title='index', entries=entries)
+    return render_template('index.html', entries = entries)
 
-@app.route('/add', methods=["GET", "POST"])
+
+@app.route('/add', methods = ["POST", "GET"])
 def add_expense():
     form = UserInputForm()
     if form.validate_on_submit():
         entry = IncomeExpenses(type=form.type.data, category=form.category.data, amount=form.amount.data)
         db.session.add(entry)
         db.session.commit()
-        flash("Successful entry", 'success')
+        flash(f"{form.type.data} has been added to {form.type.data}s", "success")
         return redirect(url_for('index'))
-    return render_template('add.html', title="add", form=form)
+    return render_template('add.html', title="Add expenses", form=form)
+    
+
 
 @app.route('/delete-post/<int:entry_id>')
 def delete(entry_id):
